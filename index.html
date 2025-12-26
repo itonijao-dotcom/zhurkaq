@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="sq">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Zhurkaq — Option 2 (Full Photo)</title>
+
+  <style>
+    :root{ --red:#D2121C; --bg:#D2121C; }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; }
+    body{
+      background:var(--red);
+      overflow:hidden;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    .stage{
+      position:fixed;
+      inset:0;
+      background:var(--red);
+      overflow:hidden;
+    }
+
+    /* LOGO KRYESORE */
+    .logoMain{
+      position:absolute;
+      top:9vh;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(160px, 24vw);
+      height:auto;
+      z-index:5;
+    }
+
+    .logo2{
+      position:absolute;
+      left:3vw;
+      bottom:14vh;
+      width:min(78px, 14vw);
+      height:auto;
+      z-index:5;
+    }
+
+    /* LOGO3 KLIKUESHME + HOVER */
+    .logo3-link{
+      position:absolute;
+      right:3vw;
+      top:18vh;
+      width:min(110px, 16vw);
+      display:block;
+      z-index:6;
+      cursor:pointer;
+    }
+    .logo3-link img{
+      width:100%;
+      height:auto;
+      display:block;
+      filter:brightness(0);          /* e zezë */
+      transition:filter .25s ease;   /* smooth */
+    }
+    .logo3-link:hover img{
+      filter:brightness(1) invert(1); /* bëhet e bardhë */
+    }
+    .logo3-link:active img{
+      filter:brightness(1) invert(1); /* tap ne mobile */
+    }
+
+    /* SLIDER */
+    .posterViewport{
+      position:absolute;
+      left:0;
+      right:0;
+      top:22vh;
+      height:56vh;
+      overflow:hidden;
+      background:var(--bg);
+    }
+
+    .posterTrack{
+      height:100%;
+      display:flex;
+      will-change:transform;
+      transform:translate3d(0,0,0);
+    }
+
+    /* OPSIONI 2: FOTO SHIHET KOMPLET */
+    .posterTrack img{
+      width:25vw;
+      height:100%;
+      object-fit:contain;
+      object-position:center;
+      background:var(--bg);
+      flex:0 0 auto;
+      display:block;
+      user-select:none;
+      pointer-events:none;
+      -webkit-user-drag:none;
+    }
+
+    /* FOOTER */
+    .footer1{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:11.5vh;
+      text-align:center;
+      color:#fff;
+      font-size:12px;
+      line-height:1.35;
+      width:min(900px, 92vw);
+    }
+
+    .footer2{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:5vh;
+      text-align:center;
+      color:#fff;
+      font-size:12px;
+      line-height:1.35;
+      width:min(900px, 92vw);
+    }
+
+    @media (max-width:768px){
+      .posterViewport{ top:20vh; height:58vh; }
+      .footer1,.footer2{ font-size:11px; }
+
+      .logoMain{ width:min(140px, 38vw); }
+
+      /* mobile: 1 foto */
+      .posterTrack img{ width:100vw; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stage">
+
+    <img class="logoMain" src="logo.svg" alt="">
+    <img class="logo2" src="logo2.svg" alt="">
+
+    <!-- LOGO3 (KLIK) - NDËRRO LINKUN -->
+    <a class="logo3-link" href="https://www.instagram.com/zhurkaq/" target="_blank" rel="noopener">
+      <img src="logo3.svg" alt="">
+    </a>
+
+    <div class="posterViewport">
+      <div class="posterTrack" id="posterTrack">
+        <img src="poster1.jpg" alt="">
+        <img src="poster2.jpg" alt="">
+        <img src="poster3.jpg" alt="">
+        <img src="poster4.jpg" alt="">
+        <img src="poster5.jpg" alt="">
+        <img src="poster6.jpg" alt="">
+        <img src="poster7.jpg" alt="">
+      </div>
+    </div>
+
+    <div class="footer1">
+      <strong>NEW YEAR MARATHON 2026</strong><br>
+      Step into 2026 with a full-night electronic music marathon built for<br>
+      endurance, movement, and collective energy.
+    </div>
+
+    <div class="footer2">
+      DATE &amp; TIME : 31 December 2025 – 1 January 2026 12:00 – 05:00<br>
+      Location: Boris Trajkovski Sport Center, Skopje <strong>2026</strong>
+    </div>
+
+  </div>
+
+  <script>
+    const track = document.getElementById('posterTrack');
+    const originals = track.children.length;
+
+    track.innerHTML += track.innerHTML;
+
+    let x = 0, last = null, width = 0;
+
+    function calcWidth(){
+      width = 0;
+      for(let i=0;i<originals;i++){
+        width += track.children[i].offsetWidth;
+      }
+    }
+
+    function loop(ts){
+      if(!last) last = ts;
+      const dt = (ts - last) / 1000;
+      last = ts;
+
+      const speed = window.innerWidth / 50;
+      x -= speed * dt;
+
+      if(x <= -width) x += width;
+
+      track.style.transform = `translate3d(${x}px,0,0)`;
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('load', () => {
+      calcWidth();
+      requestAnimationFrame(loop);
+    });
+
+    window.addEventListener('resize', () => {
+      calcWidth();
+    });
+  </script>
+</body>
+</html>
