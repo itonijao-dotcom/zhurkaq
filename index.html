@@ -33,7 +33,7 @@
       transform:translateX(-50%);
       width:min(160px, 24vw);
       height:auto;
-      z-index:5;
+      z-index:6;
     }
 
     .logo2{
@@ -42,7 +42,7 @@
       bottom:14vh;
       width:min(78px, 14vw);
       height:auto;
-      z-index:5;
+      z-index:6;
     }
 
     /* LOGO3 KLIKUESHME + HOVER */
@@ -52,21 +52,19 @@
       top:18vh;
       width:min(110px, 16vw);
       display:block;
-      z-index:6;
+      z-index:7;
       cursor:pointer;
     }
     .logo3-link img{
       width:100%;
       height:auto;
       display:block;
-      filter:brightness(0);          /* e zezë */
-      transition:filter .25s ease;   /* smooth */
+      filter:brightness(0);
+      transition:filter .25s ease;
     }
-    .logo3-link:hover img{
-      filter:brightness(1) invert(1); /* bëhet e bardhë */
-    }
+    .logo3-link:hover img,
     .logo3-link:active img{
-      filter:brightness(1) invert(1); /* tap ne mobile */
+      filter:brightness(1) invert(1);
     }
 
     /* SLIDER */
@@ -78,6 +76,7 @@
       height:56vh;
       overflow:hidden;
       background:var(--bg);
+      z-index:1;
     }
 
     .posterTrack{
@@ -87,7 +86,6 @@
       transform:translate3d(0,0,0);
     }
 
-    /* OPSIONI 2: FOTO SHIHET KOMPLET */
     .posterTrack img{
       width:25vw;
       height:100%;
@@ -102,38 +100,34 @@
     }
 
     /* FOOTER */
-    .footer1{
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:11.5vh;
-      text-align:center;
-      color:#fff;
-      font-size:12px;
-      line-height:1.35;
-      width:min(900px, 92vw);
-    }
+    .footer1,.footer2{ z-index:8; position:absolute; left:50%; transform:translateX(-50%); text-align:center; color:#fff; width:min(900px, 92vw); padding:0 10px; }
+    .footer1{ bottom:11.5vh; font-size:12px; line-height:1.35; }
+    .footer2{ bottom:5vh;    font-size:12px; line-height:1.35; }
 
-    .footer2{
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:5vh;
-      text-align:center;
-      color:#fff;
-      font-size:12px;
-      line-height:1.35;
-      width:min(900px, 92vw);
-    }
-
+    /* ===== MOBILE FIX ===== */
     @media (max-width:768px){
-      .posterViewport{ top:20vh; height:58vh; }
-      .footer1,.footer2{ font-size:11px; }
 
-      .logoMain{ width:min(140px, 38vw); }
+      /* logo pak ma posht + hapsire */
+      .logoMain{ top:6vh; width:min(140px, 38vw); }
 
-      /* mobile: 1 foto */
+      /* logo3 pak ma posht se ma heret + hapsire */
+      .logo3-link{ top:14vh; width:min(90px, 26vw); }
+
+      /* logo2 mos me hyp te teksti */
+      .logo2{ bottom:18vh; width:min(70px, 18vw); }
+
+      /* slider pak ma posht + pak ma i shkurte qe te kete hapsire posht */
+      .posterViewport{
+        top:20vh;
+        height:50vh;
+      }
+
+      /* 1 foto ne ekran */
       .posterTrack img{ width:100vw; }
+
+      /* footer ma posht, ma clean, mos me u prek me foto */
+      .footer1{ bottom:12.5vh; font-size:11px; }
+      .footer2{ bottom:5.5vh;  font-size:11px; }
     }
   </style>
 </head>
@@ -144,7 +138,6 @@
     <img class="logoMain" src="logo.svg" alt="">
     <img class="logo2" src="logo2.svg" alt="">
 
-    <!-- LOGO3 (KLIK) - NDËRRO LINKUN -->
     <a class="logo3-link" href="https://www.instagram.com/zhurkaq/" target="_blank" rel="noopener">
       <img src="logo3.svg" alt="">
     </a>
@@ -177,7 +170,6 @@
   <script>
     const track = document.getElementById('posterTrack');
     const originals = track.children.length;
-
     track.innerHTML += track.innerHTML;
 
     let x = 0, last = null, width = 0;
@@ -194,9 +186,10 @@
       const dt = (ts - last) / 1000;
       last = ts;
 
-      const speed = window.innerWidth / 50;
-      x -= speed * dt;
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+      const speed = isMobile ? (window.innerWidth / 28) : (window.innerWidth / 50); /* ✅ mobile ma shpejt */
 
+      x -= speed * dt;
       if(x <= -width) x += width;
 
       track.style.transform = `translate3d(${x}px,0,0)`;
