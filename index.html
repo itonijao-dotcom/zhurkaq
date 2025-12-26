@@ -100,33 +100,50 @@
     }
 
     /* FOOTER */
-    .footer1,.footer2{ z-index:8; position:absolute; left:50%; transform:translateX(-50%); text-align:center; color:#fff; width:min(900px, 92vw); padding:0 10px; }
-    .footer1{ bottom:11.5vh; font-size:12px; line-height:1.35; }
-    .footer2{ bottom:5vh;    font-size:12px; line-height:1.35; }
+    .footer1,.footer2{
+      z-index:8;
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      text-align:center;
+      color:#fff;
+      width:min(900px, 92vw);
+      padding:0 10px;
+    }
+
+    /* 👇 KËTU e shtyn poshtë/ lart (ndrysho numrin) */
+    .footer1{
+      bottom:10vh;          /* p.sh 11.5vh -> ma lart | 9vh -> ma posht */
+      font-size:12px;
+      line-height:1.35;
+    }
+
+    /* p ka margin default – e heqim që mos me u çrregullu */
+    .footer1 p{
+      margin:6px 0;
+    }
+
+    .footer2{
+      bottom:5vh;
+      font-size:12px;
+      line-height:1.35;
+    }
 
     /* ===== MOBILE FIX ===== */
     @media (max-width:768px){
-
-      /* logo pak ma posht + hapsire */
       .logoMain{ top:6vh; width:min(140px, 38vw); }
-
-      /* logo3 pak ma posht se ma heret + hapsire */
       .logo3-link{ top:14vh; width:min(90px, 26vw); }
-
-      /* logo2 mos me hyp te teksti */
       .logo2{ bottom:18vh; width:min(70px, 18vw); }
 
-      /* slider pak ma posht + pak ma i shkurte qe te kete hapsire posht */
       .posterViewport{
         top:20vh;
         height:50vh;
       }
 
-      /* 1 foto ne ekran */
       .posterTrack img{ width:100vw; }
 
-      /* footer ma posht, ma clean, mos me u prek me foto */
-      .footer1{ bottom:12.5vh; font-size:11px; }
+      /* 👇 edhe këtu mundesh me e lëviz poshtë/lart në mobile */
+      .footer1{ bottom:11.5vh; font-size:11px; }
       .footer2{ bottom:5.5vh;  font-size:11px; }
     }
   </style>
@@ -155,11 +172,17 @@
     </div>
 
     <div class="footer1">
-      <strong>NEW YEAR MARATHON 2026</strong><br>
-      Step into 2026 with a full-night electronic music marathon built for<br>
-      endurance, movement, and collective energy.<br>
-      DATE &amp; TIME : 31 December 2025 – 1 January 2026 12:00 – 05:00<br>
-      Location: Boris Trajkovski Sport Center, Skopje <strong>2026</strong>
+      <strong>NEW YEAR MARATHON 2026</strong>
+      <p>
+        Step into 2026 with a full-night electronic music marathon built for
+        endurance, movement, and collective energy.
+      </p>
+      <p>
+        <strong>Date &amp; Time:</strong> 31 December 2025 – 1 January 2026 · 12:00 – 05:00
+      </p>
+      <p>
+        <strong>Location:</strong> Boris Trajkovski Sport Center, Skopje · <strong>2026</strong>
+      </p>
     </div>
 
   </div>
@@ -184,7 +207,7 @@
       last = ts;
 
       const isMobile = window.matchMedia("(max-width: 768px)").matches;
-      const speed = isMobile ? (window.innerWidth / 15) : (window.innerWidth / 50); /* ✅ mobile ma shpejt */
+      const speed = isMobile ? (window.innerWidth / 10) : (window.innerWidth / 50);
 
       x -= speed * dt;
       if(x <= -width) x += width;
@@ -204,3 +227,4 @@
   </script>
 </body>
 </html>
+
